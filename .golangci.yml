@@ -28,24 +28,24 @@ linters:
       # the existing workflow, but still to be addressed by
       # future works.
       excludes:
-        - G204
-        - G305
-        - G306
-        - G402
-        - G404
-        - G115
-        - G103
-        - G104
-        - G301
-        - G302
-        - G304
+        - G103 # Audit the use of unsafe block
+        - G104 # Errors unhandled; (TODO: reduce unhandled errors, or explicitly ignore)
+        - G115 # integer overflow conversion; (TODO: verify these: https://github.com/moby/moby/issues/48358)
+        - G204 # Subprocess launched with variable; too many false positives.
+        - G301 # Expect directory permissions to be 0750 or less (also EXC0009); too restrictive
+        - G302 # Expect file permissions to be 0600 or less (also EXC0009); too restrictive
+        - G304 # Potential file inclusion via variable.
+        - G305 # File traversal when extracting zip/tar archive
+        - G306 # Expect WriteFile permissions to be 0600 or less (too restrictive; also flags "0o644" permissions)
+        - G402 # Look for bad TLS connection settings
+        - G404 # Insecure random number source (rand)
     staticcheck:
       checks:
         - all
-        - -QF1008 # Excludes QF1008 from staticcheck
-        - -ST1000
-        - -ST1020
-        - -ST1021
+        - -QF1008 # Omit embedded fields from selector expression; https://staticcheck.dev/docs/checks/#QF1008
+        - -ST1000 # Incorrect or missing package comment; https://staticcheck.dev/docs/checks/#ST1000
+        - -ST1020 # type should start with type's name; https://staticcheck.dev/docs/checks/#ST1021
+        - -ST1021 # variable or constant should start with variable's name; https://staticcheck.dev/docs/checks/#ST1022
     revive:
       rules:
         - name: package-comments
